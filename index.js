@@ -20,9 +20,9 @@ function getRandomColor() {
 const NB_COLS = 26 // Nombre de colonne par ligne
 const NB_COLS_CANVAS = NB_COLS + 1 // NB_COLS +1 pour afficher la légende (x et y)
 
-let matricePixel = [...new Array(NB_COLS ** 2)].map((x) => getRandomColor())
+let matricePixel = [...new Array(NB_COLS ** 2)].map((_) => getRandomColor())
 console.log(matricePixel)
-const CUBE_WIDTH = 10
+const CUBE_WIDTH = 100
 
 if (NB_COLS % 1 !== 0) {
   console.log(`Impossible de créer une carte car la taille de la carte est incorrecte, nbColPerRow doit être un nombre entier : ${NB_COLS}`)
@@ -40,10 +40,12 @@ const offset = (x, y) => NB_COLS * y + x
 
 // build legend of map (A to Z on x axis and 1 to NB_COLS on y axis)
 function buildCanvasLegend() {
+  const X_FIRST_ELEM = 2
+  const Y_FIRST_ELEM = 8
   for (let i = 0; i < NB_COLS_CANVAS; i++) {
     if (i > 0) {
-      ctx.fillText(alphabet[i - 1], 2 + i * 10, 8)
-      ctx.fillText(i + '', 2, 8 + i * 10)
+      ctx.fillText(alphabet[i - 1], X_FIRST_ELEM * (CUBE_WIDTH / 10) + i * (10 * (CUBE_WIDTH / 10)), Y_FIRST_ELEM * (CUBE_WIDTH / 10))
+      ctx.fillText(i + '', X_FIRST_ELEM * (CUBE_WIDTH / 10), Y_FIRST_ELEM * (CUBE_WIDTH / 10) + i * (10 * (CUBE_WIDTH / 10)))
     }
   }
 }
@@ -77,7 +79,7 @@ const ctx = canvas.getContext('2d')
 
 // Text settings
 ctx.fillStyle = bleu
-ctx.font = '9px Impact'
+ctx.font = `${9 * (CUBE_WIDTH / 10)}px Impact`
 
 buildCanvasLegend()
 drawCanvas()
