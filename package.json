@@ -1,0 +1,18 @@
+{
+  "name": "test-rplace",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@napi-rs/canvas": "^0.1.25",
+    "nodemon": "^2.0.19"
+  },
+  "devDependencies": {},
+  "keywords": [],
+  "description": ""
+}
