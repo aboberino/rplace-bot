@@ -1,6 +1,7 @@
 const Canvas = require('@napi-rs/canvas')
 const { promises } = require('fs')
 const { join } = require('path')
+let matricePixel = require('./utils')
 
 const noir = '#000000'
 const rouge = '#ee4035'
@@ -9,19 +10,23 @@ const orange = '#f37736'
 const jaune = '#fdf498'
 const vert = '#7bc043'
 const bleu = '#0392cf'
+const jaune1 = '#FFEB3B'
+const jaune2 = '#FFC107'
+const orange1 = '#FF5722'
+const orange2 = '#DB491C'
 const blanc = '#fff'
-const colors = [noir, rouge, orange, jaune, vert, bleu, blanc]
+const empty = ''
+const colors = [noir, rouge, orange, jaune, vert, bleu, blanc, empty]
 const alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
 
 function getRandomColor() {
   return colors[Math.floor(Math.random() * colors.length)]
 }
 
-const NB_COLS = 26 // Nombre de colonne par ligne
+const NB_COLS = 17 // Nombre de colonne par ligne
 const NB_COLS_CANVAS = NB_COLS + 1 // NB_COLS +1 pour afficher la légende (x et y)
 
-let matricePixel = [...new Array(NB_COLS ** 2)].map((_) => getRandomColor())
-console.log(matricePixel)
+// let matricePixel = [...new Array(NB_COLS ** 2)].map((_) => getRandomColor())
 const CUBE_WIDTH = 100
 
 if (NB_COLS % 1 !== 0) {
@@ -71,7 +76,11 @@ function drawCanvas() {
 
 function placePoint(x, y, color) {
   if (ctx.fillStyle !== color) ctx.fillStyle = color
-  ctx.fillRect(x * CUBE_WIDTH, y * CUBE_WIDTH, CUBE_WIDTH, CUBE_WIDTH)
+  if (color === empty) {
+    ctx.clearRect(x * CUBE_WIDTH, y * CUBE_WIDTH, CUBE_WIDTH, CUBE_WIDTH)
+  } else {
+    ctx.fillRect(x * CUBE_WIDTH, y * CUBE_WIDTH, CUBE_WIDTH, CUBE_WIDTH)
+  }
 }
 
 const canvas = Canvas.createCanvas(NB_COLS_CANVAS * CUBE_WIDTH, NB_COLS_CANVAS * CUBE_WIDTH)
