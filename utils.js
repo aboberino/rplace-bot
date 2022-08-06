@@ -1,4 +1,18 @@
-export let matricePixel = [
+const noir = '#000000'
+const rouge = '#ee4035'
+const violet = '#ff00ff'
+const orange = '#f37736'
+const jaune = '#fdf498'
+const vert = '#7bc043'
+const bleu = '#0392cf'
+const jaune1 = '#FFEB3B'
+const jaune2 = '#FFC107'
+const orange1 = '#FF5722'
+const orange2 = '#DB491C'
+const blanc = '#fff'
+const empty = ''
+
+const matricePixel = [
   empty,
   empty,
   empty,
@@ -290,3 +304,20 @@ export let matricePixel = [
   empty,
   empty
 ]
+
+module.exports = {
+  matricePixel,
+  noir,
+  rouge,
+  violet,
+  orange,
+  jaune,
+  vert,
+  bleu,
+  jaune1,
+  jaune2,
+  orange1,
+  orange2,
+  blanc,
+  empty
+}

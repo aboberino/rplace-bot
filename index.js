@@ -1,21 +1,8 @@
 const Canvas = require('@napi-rs/canvas')
 const { promises } = require('fs')
 const { join } = require('path')
-let matricePixel = require('./utils')
+const { matricePixel, blanc, bleu, rouge, vert, violet, empty, jaune1, jaune2, jaune, noir, orange, orange1, orange2 } = require('./utils')
 
-const noir = '#000000'
-const rouge = '#ee4035'
-const violet = '#ff00ff'
-const orange = '#f37736'
-const jaune = '#fdf498'
-const vert = '#7bc043'
-const bleu = '#0392cf'
-const jaune1 = '#FFEB3B'
-const jaune2 = '#FFC107'
-const orange1 = '#FF5722'
-const orange2 = '#DB491C'
-const blanc = '#fff'
-const empty = ''
 const colors = [noir, rouge, orange, jaune, vert, bleu, blanc, empty]
 const alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
 
