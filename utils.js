@@ -12,6 +12,16 @@ const orange2 = '#DB491C'
 const blanc = '#fff'
 const empty = ''
 
+const alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+
+function getRandomColor(palette) {
+  return palette[Math.floor(Math.random() * palette.length)]
+}
+
+function convertUserCoordToCoord(x, y) {
+  return [alphabet.indexOf(x), y - 1]
+}
+
 const matricePixel = [
   empty,
   empty,
@@ -307,6 +317,9 @@ const matricePixel = [
 
 module.exports = {
   matricePixel,
+  getRandomColor,
+  convertUserCoordToCoord,
+  alphabet,
   noir,
   rouge,
   violet,
