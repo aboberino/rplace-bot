@@ -56,19 +56,22 @@ export default new Command({
                 orderBy: { createdAt: 'desc' }
             })
 
-            console.log(userTile)
+            if (userTile) {
 
-            const lastTile = new Date(userTile.createdAt).getTime()
-            const now = Date.now()
+                console.log(userTile)
 
-            const cooldownAmount = 1000 * 60 * 5 // 5 mins
-            
-            console.log(lastTile)
-            console.log(now)
+                const lastTile = new Date(userTile.createdAt).getTime()
+                const now = Date.now()
 
-            // user in cooldown
-            if (cooldownAmount > now - lastTile) {
-                throw new Error(`You can't draw anymore, you can draw again in ${((cooldownAmount - (now - lastTile)) / 1000).toFixed()} seconds`)
+                const cooldownAmount = 1000 * 60 * 5 // 5 mins
+
+                console.log(lastTile)
+                console.log(now)
+
+                // user in cooldown
+                if (cooldownAmount > now - lastTile) {
+                    throw new Error(`You can't draw anymore, you can draw again in ${((cooldownAmount - (now - lastTile)) / 1000).toFixed()} seconds`)
+                }
             }
 
             const guildId = interaction.guild.id
