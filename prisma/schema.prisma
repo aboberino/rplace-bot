@@ -1,0 +1,33 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model GuildBoard {
+  id         Int        @id @default(autoincrement())
+  guildId    String     @unique
+  size       Int
+  boardPixel String // Array of pixels
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+  UserTile   UserTile[]
+}
+
+model UserTile {
+  id           Int        @id @default(autoincrement())
+  userId       String // discord user id
+  x            Int
+  y            Int
+  color        String
+  guildBoardId Int
+  guildBoard   GuildBoard @relation(fields: [guildBoardId], references: [id])
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+}
