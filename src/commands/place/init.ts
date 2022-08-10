@@ -2,7 +2,7 @@ import { prismaClient } from './../../utils/prismaClient';
 import { ApplicationCommandOptionType } from "discord.js"
 import { Command } from "../../structures/Command"
 import { client } from '../../index'
-import { Board, BoardOptions } from "../../place/Board"
+import { Board } from "../../place/Board"
 import { Color } from '../../typings/enums/Color';
 
 export default new Command({
@@ -31,11 +31,14 @@ export default new Command({
         try {
             // get board options
             const size = interaction.options.get("size").value as number
-
             const defaultColor = interaction.options.get("default-color").value as Color
-            console.log(defaultColor)
+
+            const guildId = interaction.guild.id
 
             // check if board exist in DB / cache if true stop command
+            if (client.boards.get(guildId) || await prismaClient.guildBoard.findFirst({ where: { guildId } })){
+                throw new Error("Board already initialized")
+            }
 
             // init the board for the current guild
             const board = new Board({ nbCols: size, defaultColor: defaultColor === Color.RANDOM ? null : defaultColor })
@@ -46,7 +49,7 @@ export default new Command({
             // save board to db
             const createdGuildBoard = await prismaClient.guildBoard.create({
                 data: {
-                    guildId: interaction.guild.id,
+                    guildId: guildId,
                     boardPixel: boardPixelConverted,
                     size
                 }
@@ -54,7 +57,7 @@ export default new Command({
 
             // set DB guildboard id to board
             board.guildBoardId = createdGuildBoard.id
-            client.boards.set(interaction.guild.id, board)
+            client.boards.set(guildId, board)
             interaction.followUp(`${size}x${size} Board has been initialized 🚀`)
         } catch (error) {
             console.log(error)

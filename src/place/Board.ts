@@ -89,7 +89,7 @@ export class Board {
         }
     }
 
-    async draw(coordX: string, coordY: number, color: Color, userId: string) {
+    async draw(coordX: string, coordY: number, color: Color, userId: string, guildId: string) {
         const [x, y] = convertUserCoordToCoord(coordX, coordY)
 
         // trouve l'index du point en (x,y) dans la boardPixel
@@ -104,7 +104,7 @@ export class Board {
 
         // save user tile in DB
         await prismaClient.userTile.create({
-            data: { userId, x, y, color, guildBoardId: this.guildBoardId }
+            data: { userId, x, y, color, guildBoard: { connect: { id: this.guildBoardId, guildId } } }
         })
 
         // update canvas

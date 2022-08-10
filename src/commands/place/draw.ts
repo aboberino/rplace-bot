@@ -5,7 +5,7 @@ import { Board } from "../../place/Board"
 import { palette, enumObject, capitalize, alphabet } from "../../utils/utils"
 import { Color } from "../../typings/enums/Color"
 import { prismaClient } from "../../utils/prismaClient"
-import { GuildBoard } from "@prisma/client"
+import { GuildBoard, prisma } from "@prisma/client"
 
 export default new Command({
     name: "draw",
@@ -50,6 +50,27 @@ export default new Command({
             //     throw new Error("Color is not a valid hex value")
             // }
 
+            // check if user can draw on the board
+            const userTile = await prismaClient.userTile.findFirst({
+                where: { userId: interaction.member.id },
+                orderBy: { createdAt: 'desc' }
+            })
+
+            console.log(userTile)
+
+            const lastTile = new Date(userTile.createdAt).getTime()
+            const now = Date.now()
+
+            const cooldownAmount = 1000 * 60 * 5 // 5 mins
+            
+            console.log(lastTile)
+            console.log(now)
+
+            // user in cooldown
+            if (cooldownAmount > now - lastTile) {
+                throw new Error(`You can't draw anymore, you can draw again in ${((cooldownAmount - (now - lastTile)) / 1000).toFixed()} seconds`)
+            }
+
             const guildId = interaction.guild.id
 
             // retrieve board from cache
@@ -74,7 +95,7 @@ export default new Command({
             }
 
             // draw the pixel
-            await board.draw(x, y, color as Color, interaction.member.id)
+            await board.draw(x, y, color as Color, interaction.member.id, guildId)
 
             // save the board to db
             await prismaClient.guildBoard.update({
