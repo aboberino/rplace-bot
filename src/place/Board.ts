@@ -104,7 +104,7 @@ export class Board {
 
         // save user tile in DB
         await prismaClient.userTile.create({
-            data: { userId, x, y, color, guildBoard: { connect: { id: this.guildBoardId, guildId } } }
+            data: { userId, x, y, color, guildBoard: { connect: { id: this.guildBoardId } } }
         })
 
         // update canvas
