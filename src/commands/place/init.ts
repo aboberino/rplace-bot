@@ -8,7 +8,7 @@ import { Color } from '../../typings/enums/Color';
 export default new Command({
     name: "init",
     description: "Initializes the board",
-    userPermissions: ["Administrator", "ManageGuild"],
+    userPermissions: ["Administrator"],
     options: [
         {
             type: ApplicationCommandOptionType.Integer,

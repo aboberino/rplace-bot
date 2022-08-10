@@ -27,7 +27,7 @@ model UserTile {
   y            Int
   color        String
   guildBoardId Int
-  guildBoard   GuildBoard @relation(fields: [guildBoardId], references: [id])
+  guildBoard   GuildBoard @relation(fields: [guildBoardId], references: [id], onDelete: Cascade)
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
 }
