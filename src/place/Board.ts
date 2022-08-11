@@ -95,16 +95,16 @@ export class Board {
         // trouve l'index du point en (x,y) dans la boardPixel
         // pour trouver l'index => index = x + 2y
         const matriceIndex = this.getOffset(x, y)
-
+	console.log(coordX + coordY, x, y, "index: " + matriceIndex, "matrice length: " + this.boardPixel.length)
         // out of range
-        if (matriceIndex >= this.boardPixel.length - 1) throw new Error('Out of range')
+        if (matriceIndex > this.boardPixel.length) throw new Error('Out of range')
 
         // update boardPixel
         this.boardPixel[matriceIndex] = color
 
         // save user tile in DB
         await prismaClient.userTile.create({
-            data: { userId, x, y, color, guildBoard: { connect: { id: this.guildBoardId } } }
+            data: { userId, x, y, color, guildBoard: { connect: { id: this.guildBoardId, guildId } } }
         })
 
         // update canvas
