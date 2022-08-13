@@ -3,7 +3,8 @@ import {
     Client,
     ClientEvents,
     ClientOptions,
-    Collection
+    Collection,
+    Routes
 } from "discord.js";
 import { CommandType } from "../typings/Command";
 import glob from "glob";
@@ -11,13 +12,16 @@ import { promisify } from "util";
 import { RegisterCommandsOptions } from "../typings/Client";
 import { Event } from "./Event";
 import { Board } from "../place/Board";
+import { REST } from '@discordjs/rest';
 
 const globPromise = promisify(glob)
+
+const rest = new REST({ version: '10' }).setToken(process.env.botToken);
 
 export class ExtendedClient extends Client {
     commands: Collection<string, CommandType> = new Collection()
     boards: Map<string, Board> = new Map()
-    
+
     // constructor() {
     //     super({ intents: 32767 });
     // }
@@ -40,6 +44,9 @@ export class ExtendedClient extends Client {
             console.log(`Registering commands to ${guildId}`);
         } else {
             this.application?.commands.set(commands);
+            await rest.put(Routes.applicationCommands(process.env.clientId), {
+                body: commands,
+            });
             console.log("Registering global commands");
         }
     }
@@ -48,7 +55,7 @@ export class ExtendedClient extends Client {
         // Commands
         const slashCommands: ApplicationCommandDataResolvable[] = [];
         const commandFiles = await globPromise(`${__dirname}/../commands/**/*{.ts,.js}`)
-        
+
         commandFiles.forEach(async (filePath) => {
             const command: CommandType = await this.importFile(filePath)
             if (!command.name) return
