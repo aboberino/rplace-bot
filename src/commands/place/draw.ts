@@ -6,6 +6,7 @@ import { palette, enumObject, capitalize, alphabet } from "../../utils/utils"
 import { Color } from "../../typings/enums/Color"
 import { prismaClient } from "../../utils/prismaClient"
 import { GuildBoard, prisma } from "@prisma/client"
+import { getErrorEmbed } from "../../utils/embed"
 
 export default new Command({
     name: "draw",
@@ -111,7 +112,7 @@ export default new Command({
             interaction.followUp({ files: [attachment] });
         } catch (error) {
             console.log(error)
-            interaction.followUp(error.message)
+            interaction.followUp({ embeds: [getErrorEmbed(error.message)] })
         }
 
     }

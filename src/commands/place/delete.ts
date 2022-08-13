@@ -2,6 +2,7 @@ import { Command } from "../../structures/Command"
 import { client } from '../../index'
 import { prismaClient } from "../../utils/prismaClient"
 import { Board } from "../../place/Board"
+import { getErrorEmbed } from "../../utils/embed"
 
 export default new Command({
     name: "delete",
@@ -27,7 +28,7 @@ export default new Command({
 
         } catch (error) {
             console.log(error)
-            interaction.followUp(error.message)
+            interaction.followUp({ embeds: [getErrorEmbed(error.message)] })
         }
 
     }

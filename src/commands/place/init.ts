@@ -4,6 +4,7 @@ import { Command } from "../../structures/Command"
 import { client } from '../../index'
 import { Board } from "../../place/Board"
 import { Color } from '../../typings/enums/Color';
+import { getErrorEmbed } from '../../utils/embed';
 
 export default new Command({
     name: "init",
@@ -61,7 +62,7 @@ export default new Command({
             interaction.followUp(`${size}x${size} Board has been initialized 🚀`)
         } catch (error) {
             console.log(error)
-            interaction.followUp(error.message)
+            interaction.followUp({ embeds: [getErrorEmbed(error.message)] })
         }
 
     }
