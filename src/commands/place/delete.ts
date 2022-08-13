@@ -2,7 +2,7 @@ import { Command } from "../../structures/Command"
 import { client } from '../../index'
 import { prismaClient } from "../../utils/prismaClient"
 import { Board } from "../../place/Board"
-import { getErrorEmbed } from "../../utils/embed"
+import { getErrorEmbed, getInfoEmbed } from "../../utils/embed"
 
 export default new Command({
     name: "delete",
@@ -20,10 +20,10 @@ export default new Command({
 
             const dbBoard = await prismaClient.guildBoard.findFirst({ where: { guildId } })
 
-            if (!dbBoard) return interaction.followUp('There is no board to delete 🤮')
+            if (!dbBoard) return interaction.followUp({ embeds: [getErrorEmbed('There is no board to delete 🤮')] })
 
             await prismaClient.guildBoard.deleteMany({ where: { guildId } })
-            interaction.followUp('Board deleted with success 🚮')
+            interaction.followUp({ embeds: [getInfoEmbed('Board deleted with success 🚮')] })
 
 
         } catch (error) {
